@@ -1,4 +1,4 @@
-HTML
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -162,13 +162,18 @@ HTML
         updateLearnCard();
     }
 
-    // 採用 Google 雲端語音引擎，支援所有手機瀏覽器與 LINE 內建瀏覽器
+    // 更穩定的發音函數
     function speakCurrentWord() {
         const word = wordsData[currentLearnIndex].word;
-        const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(word)}&tl=en&client=tw-ob`;
+        // 將空格轉為連字號（例如 Green Salad 轉為 green-salad），以符合英文發音檔案的命名習慣
+        const formattedWord = word.toLowerCase().replace(/\s+/g, '-');
+        
+        // 使用免授權的英文單字發音音訊源
+        const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(word)}&type=1`;
         const audio = new Audio(audioUrl);
+        
         audio.play().catch(error => {
-            alert("播放語音失敗，請確認網路連線或再點一次！");
+            alert("正在連線語音，請再點一次看看！");
         });
     }
 
